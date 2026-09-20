@@ -17,10 +17,9 @@ namespace JobApplication.Infrastructure.Persistence
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
-            base.OnModelCreating(builder); // Required for Identity tables
+            base.OnModelCreating(builder); 
 
-            // Ensure the AppUserId on Candidate is not treated as a FK navigation
-            // (it's a plain string referencing IdentityUser.Id)
+          
             builder.Entity<Candidate>()
                 .HasIndex(c => c.AppUserId)
                 .IsUnique();

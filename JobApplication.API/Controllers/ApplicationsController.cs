@@ -19,12 +19,7 @@ namespace JobApplication.API.Controllers
             _applicationService = applicationService;
         }
 
-        /// <summary>
-        /// POST /api/applications
-        /// Candidate applies for a job.
-        /// Business rules enforced: job must be active, no duplicate application.
-        /// Returns 201 with the new application id.
-        /// </summary>
+     
         [HttpPost]
         public async Task<IActionResult> Apply([FromBody] CreateApplicationDto dto)
         {
@@ -39,13 +34,7 @@ namespace JobApplication.API.Controllers
             return CreatedAtAction(nameof(Apply), new { id }, new { id });
         }
 
-        /// <summary>
-        /// DELETE /api/applications/{id}
-        /// Candidate cancels their own application.
-        /// Returns 204 on success.
-        /// Returns 403 if the caller does not own the application.
-        /// Returns 400 if the application status is Interview, Accepted, or Rejected.
-        /// </summary>
+
         [HttpDelete("{id:int}")]
         public async Task<IActionResult> Cancel(int id)
         {
@@ -57,7 +46,7 @@ namespace JobApplication.API.Controllers
 
             await _applicationService.CancelAsync(id, appUserId);
 
-            return NoContent(); // 204
+            return NoContent(); 
         }
     }
 }

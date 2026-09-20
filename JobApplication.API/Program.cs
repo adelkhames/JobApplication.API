@@ -19,7 +19,6 @@ namespace JobApplication.API
         {
             var builder = WebApplication.CreateBuilder(args);
 
-            // ─── Database ────────────────────────────────────────────────────────
             var connectionString =
                    builder.Configuration.GetConnectionString("DefaultConnection")
                    ?? throw new InvalidOperationException("Connection string 'DefaultConnection' is not found.");
@@ -27,7 +26,6 @@ namespace JobApplication.API
             builder.Services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(connectionString));
 
-            // ─── Identity ────────────────────────────────────────────────────────
             builder.Services.AddIdentity<AppUser, IdentityRole>(options =>
             {
                 options.Password.RequireDigit = true;
@@ -39,7 +37,6 @@ namespace JobApplication.API
             .AddEntityFrameworkStores<ApplicationDbContext>()
             .AddDefaultTokenProviders();
 
-            // ─── JWT Authentication ──────────────────────────────────────────────
             var jwtSection = builder.Configuration.GetSection("Jwt");
             var jwtKey = jwtSection["Key"]
                 ?? throw new InvalidOperationException("JWT Key is not configured.");
@@ -65,21 +62,17 @@ namespace JobApplication.API
 
             builder.Services.AddAuthorization();
 
-            // ─── Controllers ─────────────────────────────────────────────────────
             builder.Services.AddControllers();
 
-            // ─── Application Services ────────────────────────────────────────────
             builder.Services.AddScoped<IJobService, JobService>();
             builder.Services.AddScoped<IJobRepository, JobRepository>();
             builder.Services.AddScoped<IApplicationService, ApplicationService>();
             builder.Services.AddScoped<IApplicationRepository, ApplicationRepository>();
 
-            // ─── OpenAPI / Scalar ────────────────────────────────────────────────
             builder.Services.AddOpenApi();
 
             var app = builder.Build();
 
-            // ─── Middleware Pipeline ─────────────────────────────────────────────
             app.UseMiddleware<ExceptionMiddleware>();
 
             if (app.Environment.IsDevelopment())

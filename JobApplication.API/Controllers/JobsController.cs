@@ -19,10 +19,7 @@ namespace JobApplication.API.Controllers
             _jobService = jobService;
         }
 
-        /// <summary>
-        /// POST /api/jobs
-        /// Recruiter creates a new job posting.
-        /// </summary>
+     
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] CreateJobDto createJobDto)
         {
@@ -37,11 +34,7 @@ namespace JobApplication.API.Controllers
             return Ok(new { id });
         }
 
-        /// <summary>
-        /// PUT /api/jobs/{id}/close
-        /// Recruiter closes a job. Only the recruiting owner may close it.
-        /// Returns 204 on success, 403 if not the owner, 404 if job not found.
-        /// </summary>
+   
         [HttpPut("{id:int}/close")]
         public async Task<IActionResult> Close(int id)
         {
@@ -53,7 +46,6 @@ namespace JobApplication.API.Controllers
 
             await _jobService.CloseAsync(id, recruiterId);
 
-            return NoContent(); // 204
-        }
+            return NoContent(); 
     }
 }

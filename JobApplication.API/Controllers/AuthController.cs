@@ -32,10 +32,6 @@ namespace JobApplication.API.Controllers
             _context = context;
         }
 
-        /// <summary>
-        /// Register a new Recruiter or Candidate.
-        /// Role must be "Recruiter" or "Candidate".
-        /// </summary>
         [HttpPost("register")]
         public async Task<IActionResult> Register([FromBody] RegisterDto dto)
         {
@@ -54,7 +50,6 @@ namespace JobApplication.API.Controllers
             if (!result.Succeeded)
                 return BadRequest(new { errors = result.Errors.Select(e => e.Description) });
 
-            // If the user is a Candidate, create the domain Candidate record
             if (dto.Role == "Candidate")
             {
                 var candidate = new Candidate
@@ -72,9 +67,7 @@ namespace JobApplication.API.Controllers
             return Ok(new AuthResponseDto { Token = token, Email = user.Email!, Role = user.Role });
         }
 
-        /// <summary>
-        /// Login with email and password. Returns a JWT bearer token.
-        /// </summary>
+
         [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] LoginDto dto)
         {
@@ -90,7 +83,6 @@ namespace JobApplication.API.Controllers
             return Ok(new AuthResponseDto { Token = token, Email = user.Email!, Role = user.Role });
         }
 
-        // ────────────────────────────────────────────────────────────────────────
         private string GenerateJwtToken(AppUser user)
         {
             var jwtSection = _configuration.GetSection("Jwt");

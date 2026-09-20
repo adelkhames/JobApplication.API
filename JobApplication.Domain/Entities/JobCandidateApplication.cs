@@ -22,7 +22,6 @@ namespace JobApplication.Domain.Entities
 
         public DateTime StatusUpdatedAt { get; set; }
 
-        /// <summary>Set when the candidate cancels their application.</summary>
         public DateTime? CancelledAt { get; set; }
     }
 }

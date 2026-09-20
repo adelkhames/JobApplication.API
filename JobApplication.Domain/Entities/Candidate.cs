@@ -13,7 +13,6 @@ namespace JobApplication.Domain.Entities
 
         public string CvUrl { get; set; } = string.Empty;
 
-        /// <summary>Links this Candidate record to the Identity AppUser (stored as string Id).</summary>
         public string AppUserId { get; set; } = string.Empty;
     }
 }
